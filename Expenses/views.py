@@ -22,7 +22,6 @@ from django.contrib.sites.shortcuts import get_current_site
 def home(request):
     return render(request,'home.html')
 
-
 def admin_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -45,14 +44,23 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(username=username,password=password)
-        if user is not None:
-            login(request,user)
-            messages.success(request,'login successfull')
-            return redirect('home')
+        if User.objects.filter(username=username).exists():
+            user=User.objects.get(username=username)
+            if user.is_active:
+                user = authenticate(username=username,password=password)
+                if user is not None:
+                    login(request,user)
+                    messages.success(request,'login successfull')
+                    return redirect('home')
+                else:
+                   messages.error(request,'please check the Password Properly')
+                   return redirect('login')
+            else:
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                return render(request,'Acc-act/Reactivate_acc.html',{'user':user,'uid':uid})
         else:
-           messages.error(request,'please check the details properly')
-           return redirect('login')
+            messages.error(request,"Username Doesn't Exist")
+            return redirect('login')
     return render(request,'user.html')
 
 
@@ -157,6 +165,13 @@ def finsih_trip(request,pk):
         trip.save()
     return redirect('trips_list')    
 
+#acc Reactivate
+def reactivate_acc(request,uidb64):
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user=User.objects.get(pk=uid)
+    send_activation_email(user, request)
+    
+    return render(request,'Acc-act/reactivate_message.html')
 
 # mail setup 
 def send_activation_email(user, request):
@@ -195,5 +210,3 @@ def activate_account(request, uidb64, token):
     else:
         return render(request, 'activation_invalid.html')
     
-# password setup
-

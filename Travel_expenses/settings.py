@@ -74,9 +74,6 @@ WSGI_APPLICATION = 'Travel_expenses.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -126,4 +123,20 @@ MEDIA_ROOT=os.path.join(BASE_DIR ,'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_db',
+        'USER': 'root',
+        'PASSWORD': 'Kumar@123',
+        'HOST': '127.0.0.1',
+        'PORT': '3307',
+    }
+    
+}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # Add email host Provider
+EMAIL_PORT = 587  #add Port
+EMAIL_USE_TLS = True 
+EMAIL_HOST_USER = 'prashanthkurmar143@gmail.com' # add your Email 
+EMAIL_HOST_PASSWORD = 'lgze zpwe brjf lowv'  # add your nail password
