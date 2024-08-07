@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+<style>
+    section{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+    }
+    .into{
+    }
+    img{
+        width:850px;
+        height:400px;
+        margin:20px;
+    }
+    .container-home {
+        width: 80%;
+        margin: 0 auto;
+        overflow: hidden;
+        padding: 2rem 0;
+    }
+    .container-home h1 {
+        color: #333;
+        margin-bottom: 1rem;
+    }
+    .container-home p {
+        margin-bottom: 1rem;
+        font-size:20px;
+    }
+    ul li{
+        margin-left:50px;
+        font-size:20px;
+    }
+    .image-flex{
+        display:flex;
+    }
+    @media (max-width: 768px) {
+        img{
+            width:330px;
+            height:200px;
+            margin:10px;
+        }
+        .intro h1{
+            font-size:15px;
+        }
+        h1{
+            font-size:25px;
+        }
+        p{
+            font-size:10px;
+            margin-bottom:2px;
+            text-align:justify;
+        }
+        ul li{
+            margin-left:0px;
+            text-align:justify;
+        }
+        .image-flex{
+            display:block;
+        }
+    }
+</style>
+<div class="intro">
+    <h1 style="color:#000">Travel expenses</h1>
+    <img src="{% static 'images/Establishing a Travel and Expenses Process_ Strategy, Steps & Best Practices (1).webp' %}" alt="Headphones">
+</div>
+<div class="container-home">
+    <h1>Travel Expense</h1>
+    <p>Business trips are vital to the modern professional landscape, but managing travel expenses can feel like a constant battle.</p>
+    <p>Did you know that the average U.S. business trip in 2023 cost a staggering <span class="highlight">$1,293</span>, with daily expenses reaching <span class="highlight">$325</span>? Unsurprisingly, business travel is also the second-largest cost factor for most businesses.</p>
+    <p>For both employees and employers, streamlining business travel expense management and reimbursements becomes a top priority. This guide will equip you with all the necessary information: what qualifies as a travel expense, what you can claim as tax deductions, and, most importantly, how to manage it efficiently.</p>
+    <p>Let’s take the stress out of travel expenses and get you back to focusing on what matters most–a successful business trip.</p>
+    <img src='https://a.storyblok.com/f/188325/1460x820/af7cf054d5/managing-business-travel-expenses.png'>
+</div>
+<div class="container-home">
+    <h1>What Is A Travel Expense?</h1>
+    <div class='image-flex'>
+        <p>For tax purposes, a travel expense is any cost you incur while traveling for work. This can include transportation, lodging, meals, and incidental costs directly related to your business trip.<br><br>
+            Travel expenses are the ordinary and necessary expenses of traveling away from home for your business, profession, or job. You can't deduct expenses that are lavish or extravagant, or that are for personal purposes.<br><br>
+
+            You're traveling away from home if your duties require you to be away from the general area of your tax home for a period substantially longer than an ordinary day's work, and you need to get sleep or rest to meet the demands of your work while away. 
+        </p>
+        <img src='https://www.billdu.com/wp-content/uploads/2023/09/Travel-Expense-Management.png'>
+    </div>
+</div>
+<div class="container-home">
+    <h1>A List Of Deductible Travel Expenses </h1>
+    <img src='https://cdn.prod.website-files.com/5dd3ac2a77520f09d34aa5b0/6656cd7f7f7987f8476ac1f5_A%20List%20Of%20Deductible%20Travel%20Expenses.png'>
+    <h1>Some Travel expenses while you’re away from home:</h1>
+    <ul>
+        <li>Transportation ✈️: Flights, trains, buses, or your own car to get to your business destination (including free frequent flyer tickets at face value).</li>
+        <li>Local travel 🚕: Taxis, shuttles, or rideshares between airports/stations, hotels, and work locations (clients, meetings, temporary assignments).</li>
+        <li>Shipping 🛄: Baggage, samples, and display materials between your regular and temporary workplaces.</li>
+        <li>Car expenses 🚗: Using your car (actual expenses or mileage rate), tolls, parking (business use only for rentals).</li>
+        <li>Accommodation 🏨: Lodging for your business stay.</li>
+        <li>Meals 🍽️ : Food that's not for entertainment purposes.some text</li>
+        <li>Instead of tracking every meal expense, you can use a standard meal allowance that changes based on your travel destination. However, remember that only 50% of the cost (even using the standard allowance) is typically deductible for business meals.</li>
+        <li>Laundry and dry cleaning 🧺: Keeping your clothes presentable during the trip.</li>
+        <li>Business communication📱: Calls, faxes, or other work-related messages.</li>
+        <li>Tips💰: Associated with any of the deductible expenses.</li>
+        <li>Other miscellaneous costs 💸: As long as they're reasonable and necessary for your business trip, like travel to/from business meals, stenographer fees, computer rentals, or maintaining a work trailer.</li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Trip page{% endblock %}
+
+{% block content %}
+    <style>
+        form {
+            max-width: 700px;
+            margin: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group textarea {
+            height: 100px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color:#63a8bd;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit{
+            padding: 10px 20px;
+            background-color:#63a8bd;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        a{
+            text-decoration:none;
+        }
+    </style>
+{% if trips %}
+<form >
+    <style>
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <h2 style="text-align: center;">My Trips</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Trip</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>End Trip</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trip in trips %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><a href="{% url 'expense_list' pk=trip.id %}">{{trip.name}}</a> </td>
+                <td>{{trip.start_date}}</td>
+                <td>{{trip.end_date}}</td>
+                {% if trip.status == 'pending' %}
+                <td><button class="submit"><a href="{% url 'end_trip' pk=trip.id %}">FINISH</a></button></td>
+                {% else %}
+                <td style="color:green">trid ended</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+{% else %}
+    <h2 style="text-align:center;">No Data</h2>
+{% endif %}
+{% endblock %}

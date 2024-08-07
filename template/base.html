@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Homepage{% endblock %}</title>
+    <style>
+        body, h1{
+            margin: 0;
+            padding: 0;
+            background-color:#cae085;
+           
+        }
+
+        header {
+            background-color:#63a8bd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            position:fixed;
+            width:100%;
+            z-index:1000;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-family: 'Sriracha', cursive;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .navbar {
+            text-align: center;
+        }
+
+        nav a {
+            margin-right: 50px;
+            text-decoration: none;
+            color: black;
+            font-size: 17px;
+            font-weight: bolder;
+        }
+
+        button {
+            border: transparent;
+            background-color: transparent;
+        }
+
+        button:hover {
+            color: white;
+        }
+
+        .intro {
+            text-align: center;
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 56px;
+            color: black;
+        }
+
+        main {
+            min-height: 100vh;
+            background-repeat: no-repeat;
+            background-image: url();
+            background-size: 100rem;
+            background-position: center;
+            width: auto;
+        }
+        .sidebar{
+            display:none;
+        }
+        .menu-toggle {
+            display: none; 
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            background: transparent;
+            border: none;
+            margin-top:-6px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            bottom: 0;
+            width: 97.6%;
+        }
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+            .logo{
+                font-size:15px;
+            }
+            .mobile-view{
+                display:flex;
+                justify-content:space-between;
+                width:90%;
+            }
+            .navbar{
+                display:none;
+            }
+            section{
+                overflow-x: hidden;
+            }
+            .menu-toggle {
+                display: block; 
+            }
+            .sidebar {
+                display: none; 
+                position: fixed;
+                top: 0;
+                right: 0; 
+                width: 250px;
+                height: 100%;
+                background-color:#63a8bd;
+                padding: 20px;
+                z-index: 1001;
+                box-shadow: -2px 0 5px rgba(0,0,0,0.5); 
+                overflow: auto;
+                transform: translateX(100%); 
+                transition: transform 0.45s ease; 
+            }
+            .sidebar.active {
+                display: block;
+                transform: translateX(0); 
+            }
+            
+            .sidebar a {
+                display: block;
+                color: white;
+                margin-bottom: 15px;
+                text-decoration: underline; /* Underline each link */
+                font-size: 20px; /* Increased font size */
+                font-weight: bolder;
+                padding: 10px 0; /* Padding around each link */
+            }            
+            .close-btn {
+                display: block;
+                color: #fff;
+                font-size: 44px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
+            .close-btn:hover {
+                color: #f0f0f0;
+            }    
+            .sidebar ul {
+                list-style: none;
+                padding: 0; 
+                margin: 0; 
+            }
+            .sidebar ul li a {
+                color: white;
+                text-decoration: none; /* Underline each link */
+                font-size: 20px; /* Increased font size */
+                font-weight: bolder;
+                display: block; /* Make links block level to allow full padding */
+                padding: 10px 0; /* Padding around each link */
+            }            
+            .sidebar li {
+                margin-bottom: 15px; 
+                border-bottom:1px solid #f0f0f0;
+            }
+            .sidebar a:focus,
+            .sidebar a:active {
+                background: none; /* Remove background color on focus/active */
+                outline: none; /* Remove focus outline */
+            }
+            footer {
+                background: #333;
+                color: #fff;
+                text-align: center;
+                padding: 1rem;
+                bottom: 0;
+                width: 92%;
+            }            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="mobile-view">
+            <a href="{% url 'home' %}" class="logo">Travel expenses</a>
+            <button class="menu-toggle">&#9776;</button>
+        </div>
+        <div>
+            <nav class="navbar">
+                <button>
+                    <a href="{% url 'home' %}">Home</a>
+                </button>
+                {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                <button>
+                    <a href="{% url 'add_category' %}">Category</a>
+                </button>
+                {% else %}
+                <button>
+                    <a href="{% url 'add_trip' %}">add trip</a>
+                </button>
+                <button>
+                    <a href="{% url 'add_expense' %}">add expense</a>
+                </button>
+                <button>
+                    <a href="{% url 'trips_list' %}">trips</a>
+                </button>
+                {% endif %}
+                <button>
+                    <a href="{% url 'password_change' %}">Change Password</a>
+                </button>
+                <button>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </button>
+                {% else %}
+                <button>
+                    <a href="{% url 'login' %}">Login</a>
+                </button>
+                <button>
+                    <a href="{% url 'register' %}">Register</a>
+                </button>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <div class="sidebar">
+        <span class="close-btn">&times;</span>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <li><a href="{% url 'add_category' %}">Category</a></li>
+            {% else %}
+            <li><a href="{% url 'add_trip' %}">add trip</a></li>
+            <li><a href="{% url 'add_expense' %}">add expense</a></li>
+            <li><a href="{% url 'trips_list' %}">trips</a></li>
+            {% endif %}
+            <li><a href="{% url 'password_change' %}">Change Password</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <main style="padding-top:90px">
+        {% block content %}{% endblock %}
+    </main>
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.remove('active');
+        });
+    </script>
+    <footer>
+        &copy; 2024 Business Travel Solutions
+    </footer>
+</body>
+</html>
