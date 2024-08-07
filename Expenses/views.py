@@ -99,7 +99,7 @@ def register(request):
                         is_active=False  
                     )
                     send_activation_email(user,request)
-                    return render(request,'mail_send.html',{'email':Email})
+                    return render(request,'Acc-act/mail_send.html',{'email':Email})
         else:
             messages.error(request, 'Passwords do not match.')
             return redirect('register')
@@ -182,7 +182,7 @@ def send_activation_email(user, request):
     activation_link = f"http://{domain}/activate/{uid}/{token}/"
     
     subject = 'Activate Your Account'
-    html_message = render_to_string('activation_email.html', {
+    html_message = render_to_string('Acc-act/activation_email.html', {
         'user': user,
         'activation_link': activation_link,
     })
@@ -208,5 +208,5 @@ def activate_account(request, uidb64, token):
         login(request, user)
         return redirect('home')  
     else:
-        return render(request, 'activation_invalid.html')
+        return render(request, 'Acc-act/activation_invalid.html')
     
