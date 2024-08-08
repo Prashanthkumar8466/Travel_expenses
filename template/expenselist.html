@@ -54,6 +54,8 @@
         <div class="form-group">
             <label for="selection">Total-{{amount}}</label>
         </div>
+        <a style='text-decoration:none' href="{% url 'invoice_pdf_view' trip_id=trip.id %}">view pdf </a>
+        <a style='margin-left:20px;text-decoration:none' href="{% url 'invoice_pdf_view' trip_id=trip.id %}" name='trip-{{trip.id}}' Download>Download pdf </a>
         {% else %}
         {% endif %}
     </div>

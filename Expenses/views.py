@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
 from django.contrib.auth import login ,logout,authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,9 @@ from .models import Trip, Expense,Category
 from django.contrib.auth.views import PasswordResetView
 from django.urls import reverse_lazy
 
+#pdf covertion 
+from xhtml2pdf import pisa
+from io import BytesIO
 
 # mail setup 
 from django.contrib.auth.tokens import default_token_generator
@@ -46,20 +49,24 @@ def login_view(request):
         password = request.POST.get('password')
         if User.objects.filter(username=username).exists():
             user=User.objects.get(username=username)
-            if user.is_active:
-                user = authenticate(username=username,password=password)
-                if user is not None:
-                    login(request,user)
-                    messages.success(request,'login successfull')
-                    return redirect('home')
+            if user.check_password(password):
+                if user.is_active:
+                    user = authenticate(username=username,password=password)
+                    if user is not None:
+                        login(request,user)
+                        messages.success(request,'login successfull')
+                        return redirect('home')
+                    else:
+                       messages.error(request,'please check the Password Properly')
+                       return redirect('login')
                 else:
-                   messages.error(request,'please check the Password Properly')
-                   return redirect('login')
+                    uid = urlsafe_base64_encode(force_bytes(user.pk))
+                    return render(request,'Acc-act/Reactivate_acc.html',{'username':user,'uid':uid})
             else:
-                uid = urlsafe_base64_encode(force_bytes(user.pk))
-                return render(request,'Acc-act/Reactivate_acc.html',{'user':user,'uid':uid})
+                messages.error(request,"please check the Password Properly")  
+                return redirect('login') 
         else:
-            messages.error(request,"Username Doesn't Exist")
+            messages.error(request,"username doesn't exist")
             return redirect('login')
     return render(request,'user.html')
 
@@ -116,6 +123,8 @@ def add_trip(request):
         start_date = request.POST['start_date']
         end_date =request.POST['end_date']
         data=Trip.objects.create(user=request.user,name=name,start_date=start_date,end_date=end_date)
+        messages.success(request,'Trip added successfully')
+        return redirect('add_trip')
     return render(request, 'add_trip.html')
 
 
@@ -132,6 +141,7 @@ def add_expense(request):
         category=Category.objects.get(id=category_id)
         data=Expense.objects.create(trip=trip,category=category,date=Date,amount=price,description=Description)
         data.save()
+        messages.success(request,'Expense added successfully')
         return redirect('add_expense')
     return render(request, 'add_expense.html', {'categories': category,'trips':trip})
 
@@ -210,3 +220,23 @@ def activate_account(request, uidb64, token):
     else:
         return render(request, 'Acc-act/activation_invalid.html')
     
+#pdf Download Setup
+
+def render_to_pdf(template_src, context_dict={}):
+    template = render_to_string(template_src, context_dict)
+    result = BytesIO()
+    pdf = pisa.CreatePDF(template, dest=result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+def invoice_pdf_view(request, trip_id):
+    trip=Trip.objects.get(id=trip_id)
+    data = Expense.objects.filter(trip=trip)
+    amount=sum(item.amount for item in data)
+    context = {
+        'invoice': data,
+        'trip':trip,
+        'amount':amount,
+        }
+    return render_to_pdf('invoice_template.html', context)

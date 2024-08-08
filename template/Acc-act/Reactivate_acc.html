@@ -42,7 +42,7 @@
 </style>
 <section>
     <div>
-        <h2 style='display:flex;justify-content:center;'>Hii {{user.username}}</h2>
+        <h2 style='display:flex;justify-content:center;'>Hii {{username.username}}</h2>
         <p>Your Account is Deactivated if you want to acctivate your account Please click on Below button the mail will be send to you Mail {{user.email}}</p>
         <form >
             <button style="display: flex;justify-content:center;"class='submitForm' type=submit><a id='ActivateLink' href="{% url 'reactivate_account' uidb64=uid %}">Activate account</a></button> 

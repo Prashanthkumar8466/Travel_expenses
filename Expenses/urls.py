@@ -21,5 +21,8 @@ urlpatterns = [
     path('password-reset-done',auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'),name='password_reset_done'),
     path('password-reset-complete',auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'),name='password_reset_complete'),
     path('password-change',auth_views.PasswordChangeView.as_view(template_name='password/password_change.html'),name='password_change'),
-    path('password-change-done',auth_views.PasswordChangeDoneView.as_view(template_name='password/password_change_complete.html'),name='password_change_done')
+    path('password-change-done',auth_views.PasswordChangeDoneView.as_view(template_name='password/password_change_complete.html'),name='password_change_done'),
+    
+    #invoice make Htmlto pdf
+    path('trip/<int:trip_id>/',views.invoice_pdf_view, name='invoice_pdf_view'),
 ]
