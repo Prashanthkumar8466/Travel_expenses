@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-bh_v52mgjhrw@c-ntg$!=o3zhh2ys0^!k58(bnx77ou^&xy-gs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['coursemanagement.pythonanywhere.com']
 
 
 # Application definition
@@ -129,3 +129,9 @@ MEDIA_ROOT=os.path.join(BASE_DIR ,'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True 
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
